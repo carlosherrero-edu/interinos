@@ -1,8 +1,9 @@
 from accesoDatos import *
+from constantes import constantes
 #carga de datos de prueba
 
-rutaBD="adjudicaciones.db"  #camino a la base de datos
-conexion=conectar(rutaBD)
+conexion=conectar(constantes['ruta_db']+'/'+constantes['nombre_db'])
+
 
 
 def vaciarTablas():

@@ -1,10 +1,6 @@
 
 from accesoDatos import *
-#procedimiento de adjudicación
 
-
-rutaBD="adjudicaciones.db"  #camino a la base de datos
-conexion=conectar(rutaBD)
 
 def recorrerEspecialidades(conexion,listaEspecialidades):
     #iniciamos contador de adjudicaciones
@@ -108,39 +104,6 @@ def analizarPeticion(conexion,peticion,plazaAdjudicada):
     return adjudicada, mejora
      
 #fin del metodo analizarPeticion
-
-##################################################################################################3
-###principal
-
-listaEspecialidades=leerListaEspecialidades(conexion)
-print(listaEspecialidades)
-
-#inicialización de variables para la primera iteración
-numIteraciones=0
-vacantesLibres=contarVacantesLibres(conexion)
-print("Vacantes no asignadas--->" +str(vacantesLibres))
-hayMejoras=True
-
-while(vacantesLibres>0 and hayMejoras):
-    numIteraciones+=1
-    print('Comienzo de la iteración número {0:d} \n'.format(numIteraciones))
-
-    #primero cambiamos la variable hayMejoras
-    hayMejoras=False
-    #procedimiento de recorrido por especialidades para adjudicar vacantes
-    adjudicacionesIteracion, numMejoras= recorrerEspecialidades(conexion,listaEspecialidades)
-   
-    #hay que verificar si siguen quedando vacantes libres
-    vacantesLibres=contarVacantesLibres(conexion)
-    print('Fin de la iteración número {0:d} \n'.format(numIteraciones))
-    print('Se han adjudicado {0:d} vacantes \n'.format(adjudicacionesIteracion))
-    print('Se han producido en esta iteración {0:d} mejoras en adjudicaciones \n'.format(numMejoras))
-    print("Vacantes que continúan libres--->" +str(vacantesLibres))
-    if numMejoras>0:
-        hayMejoras=True  #lo que obliga a una repetición del bucle
-#fin del bucle while principal
-#cerramos la conexión
-desconectar(conexion)
 
 
 

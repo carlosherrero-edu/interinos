@@ -229,6 +229,54 @@ def liberarPeticion(conexion,documento, preferencia):
 
 #fin del método
 
+def consultarPuestosAdjudicados(conexion):
+    #método para recuperar una lista de todos los puestos adjudicados
+    consulta='''
+                SELECT e.codEspecialidad, e.nombreEspecialidad, t.codCentro, t.nombreCentro, c.documento as "Adjudicatario", 
+            c.nombreApellidos, l.orden as "Posición", p.ordenPeticion as Preferencia
+            from vacante v inner join candidato c on v.adjudicatario=c.documento
+            inner join centro t on v.codCentro=t.codCentro
+            inner join Especialidad e on v.codEspecialidad=e.codEspecialidad
+            inner join Lista l on v.codEspecialidad=l.codEspecialidad and v.adjudicatario=l.documento
+            inner join Peticion p on v.adjudicatario=p.documento and v.codEspecialidad=p.codEspecialidad and v.codCentro=p.codCentro
+            where v.adjudicatario is not null
+            order by 1,3
+            '''
+    try:
+        cursor=abreCursor(conexion)
+     
+        cursor.execute(consulta)
+        #recuperamos la lista de todos los puestos adjudicados
+        puestos=cursor.fetchall()
+        cierraCursor(cursor)
+        return puestos
+    except:
+        return None
+    #fin del método
+
+
+def consultarPuestosDesiertos(conexion):
+    #método para recuperar una lista de todos los puestos no adjudicados
+    consulta='''
+             SELECT v.codEspecialidad, e.nombreEspecialidad, v.codCentro, t.nombreCentro
+                from vacante v inner join centro t on v.codCentro=t.codCentro
+                inner join Especialidad e on v.codEspecialidad=e.codEspecialidad
+                where v.adjudicatario is null
+            order by 1,3
+            '''
+    try:
+        cursor=abreCursor(conexion)
+     
+        cursor.execute(consulta)
+        #recuperamos la lista de todos los puestos adjudicados
+        puestosDesiertos=cursor.fetchall()
+        cierraCursor(cursor)
+        return puestosDesiertos
+    except:
+        return None
+    #fin del método
+    
+
 
 
 
