@@ -9,3 +9,11 @@ def escribirEnCsv(fichero,cabecera,datos):
             escritor.writerow(fila)
 #fin del método
 
+
+def leerDatosInicio(fichero):
+    with open(fichero,'r+', newline='') as csv_file:
+        lector = csv.reader(csv_file)
+        #leemos secuencialmente cada fila y generamos una lista con todas las filas leídas
+        return [fila for fila in lector]
+#fin del método
+

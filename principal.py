@@ -3,8 +3,8 @@ from constantes import constantes
 from metodosAdjudicacion import *
 
 from datetime import datetime
-
 import accesoDatos
+import cargarDatosPrueba
 import tratarCsv
 
 
@@ -46,6 +46,18 @@ def escribirFinIteracion(fichLog,iteracion,adjudicadas,mejoras,vacantes):
     fichLog.write('\nSe han producido en esta iteración {0:d} mejoras en adjudicaciones \n'.format(mejoras))
     fichLog.write("\nVacantes que no se han adjducicado: " +str(vacantes))
 
+def cargarDatosInicio(conexion,fichLog):
+    #ejecutamos el método para vaciar las tablas
+    cargarDatosPrueba.vaciarTablas(conexion,fichLog)
+
+    #a continuación ejecutamos los métodos para ir poblando cada tabla con los datos de prueba
+    cargarDatosPrueba.cargarEspecialidades(conexion,fichLog)
+    cargarDatosPrueba.cargarCentros(conexion,fichLog)
+    cargarDatosPrueba.cargarCandidatos(conexion,fichLog)
+    cargarDatosPrueba.cargarBaremados(conexion,fichLog)
+    cargarDatosPrueba.cargarPeticiones(conexion,fichLog)
+    cargarDatosPrueba.cargarVacantes(conexion,fichLog)
+
 
 def escribirPuestosAsignados(conexion):
     puestosAdjudicados=accesoDatos.consultarPuestosAdjudicados(conexion)
@@ -66,13 +78,15 @@ def escribirPuestosDesiertos(conexion):
 #fin del método
 
 
-
+#inicialización y apertura de la base de datos
 conexion=conectar(constantes['ruta_db']+'/'+constantes['nombre_db'])
-
-  
-#inicialización de variables para la primera iteración
+#inicialización y apertura del fichero de log
 fichLog=abrirFicheroLog()
 escribirLogInicioEjecucion (fichLog)
+#carga de las tablas con los datos de los ficheros CSV 
+cargarDatosInicio(conexion,fichLog)
+  
+#inicialización de variables para la primera iteración
 numIteraciones=0
 vacantesIniciales=vacantesLibres=contarVacantesLibres(conexion)
 vacantesAsignadas=0
@@ -95,6 +109,7 @@ while(vacantesLibres>0 and hayMejoras):
     if numMejoras>0:
         hayMejoras=True  #lo que obliga a una repetición del bucle
 #fin del bucle while principal
+
 escribirLogFinEjecucion(fichLog, numIteraciones,vacantesAsignadas, vacantesIniciales-vacantesAsignadas)
 #escribir los ficheros de vacantes asignadas y vacantes desiertas
 escribirPuestosAsignados(conexion)
