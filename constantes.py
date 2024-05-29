@@ -4,7 +4,8 @@
 """
 constantes=dict()
 constantes['ruta_db']='basedatos'   #carpeta donde se encuentra la base de datos
-constantes['ruta_ficheros']='datos_prueba' #carpeta donde se encuentran los ficheros csv que procesa la aplicación
+constantes['ruta_ficheros']='entradas' #carpeta donde se encuentran los ficheros csv que procesa y lee la aplicación
+constantes['ruta_resultados']='resultados' #carpeta donde se encuentran los ficheros csv que devuelve y escribe la aplicación
 constantes['nombre_db']='adjudicaciones.db' #nombre de la base de datos SQLite
 constantes['nombre_fichero_log']='ejecuciones.txt' #nombre del fichero donde se escribe el registro de log de las ejecuciones
 constantes['nombre_fichero_errores']='errrores.txt' #nombre del fichero donde se escribe el registro de errores detectados en una ejecución

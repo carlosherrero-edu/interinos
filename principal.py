@@ -77,7 +77,7 @@ def escribirPuestosAsignados(conexion):
     puestosAdjudicados=accesoDatos.consultarPuestosAdjudicados(conexion)
     if puestosAdjudicados is not None:
         cabecera=['Código','Especialidad','Código','Centro','Documento','Adjudicatario', 'Orden Lista','Preferencia']
-        tratarCsv.escribirEnCsv(constantes['ruta_ficheros']+'/'+constantes['fic_asignadas'],
+        tratarCsv.escribirEnCsv(constantes['ruta_resultados']+'/'+constantes['fic_asignadas'],
                                 cabecera,puestosAdjudicados)
     #en caso contrario, no escribimos nada
 #fin del método
@@ -86,7 +86,7 @@ def escribirPuestosDesiertos(conexion):
     puestosDesiertos=accesoDatos.consultarPuestosDesiertos(conexion)
     if puestosDesiertos is not None:
         cabecera=['Código','Especialidad','Código','Centro']
-        tratarCsv.escribirEnCsv(constantes['ruta_ficheros']+'/'+constantes['fic_desiertas'],
+        tratarCsv.escribirEnCsv(constantes['ruta_resultados']+'/'+constantes['fic_desiertas'],
                                 cabecera,puestosDesiertos)
     #en caso contrario, no escribimos nada
 #fin del método
