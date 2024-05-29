@@ -3,7 +3,7 @@ from constantes import constantes
 from tratarCsv import *
 #carga de datos de prueba
 
-def vaciarTablas(conexion,fichLog):
+def vaciarTablas(conexion,fichLog, fichErr):
     #método para contar cuántas vacantes hay aún libres
     try:
         cursor=abreCursor(conexion)
@@ -18,8 +18,8 @@ def vaciarTablas(conexion,fichLog):
         fichLog.write('\nSe han vaciado correctamente todas las tablas de la base de datos')
         
    
-    except:
-        print('Se produjo un error al vaciar las tablas')
+    except Exception as error:
+        fichErr.write('Se produjo el siguiente error al vaciar las tablas: '+error)
         conexion.rollback()
     finally:
         cierraCursor(cursor)
@@ -27,7 +27,7 @@ def vaciarTablas(conexion,fichLog):
 #fin del método
 
 
-def cargarEspecialidades(conexion,fichLog):
+def cargarEspecialidades(conexion,fichLog, fichErr):
     #método para cargar las especialidades de prueba
     try:
         listaEspecialidades=leerDatosInicio(constantes['ruta_ficheros']+'/'+constantes['ficheros_inicio'][0])
@@ -46,8 +46,8 @@ def cargarEspecialidades(conexion,fichLog):
       
         conexion.commit()
         
-    except:
-        print('Se produjo un error al insertar Especialidades')
+    except Exception as error:
+        fichErr.write('Se produjo el siguiente error al insertar en Especialidad: '+error)
         conexion.rollback()
     finally:
         cierraCursor(cursor)
@@ -55,7 +55,7 @@ def cargarEspecialidades(conexion,fichLog):
     #fin del método
 
 
-def cargarCentros(conexion,fichLog):
+def cargarCentros(conexion,fichLog, fichErr):
     #método para cargar los Centros docentes de prueba
     try:
         listaCentros=leerDatosInicio(constantes['ruta_ficheros']+'/'+constantes['ficheros_inicio'][1])
@@ -73,15 +73,15 @@ def cargarCentros(conexion,fichLog):
         
         conexion.commit()
         
-    except:
-        print('Se produjo un error al insertar Centros')
+    except Exception as error:
+        fichErr.write('Se produjo el siguiente error al insertar en Centro: '+error)
         conexion.rollback()
     finally:
         cierraCursor(cursor)
 
     #fin del método
 
-def cargarCandidatos(conexion,fichLog):
+def cargarCandidatos(conexion,fichLog,fichErr):
     #método para cargar los candidatos/interinos de prueba
     try:
         listaCandidatos=leerDatosInicio(constantes['ruta_ficheros']+'/'+constantes['ficheros_inicio'][2])
@@ -101,8 +101,8 @@ def cargarCandidatos(conexion,fichLog):
         
         conexion.commit()
         
-    except:
-        print('Se produjo un error al insertar Candidatos')
+    except Exception as error:
+        fichErr.write('Se produjo el siguiente error al insertar en Candidato: '+error)
         conexion.rollback()
     finally:
         cierraCursor(cursor)
@@ -110,7 +110,7 @@ def cargarCandidatos(conexion,fichLog):
 #fin del método
 
 
-def cargarVacantes(conexion,fichLog):
+def cargarVacantes(conexion,fichLog, fichErr):
     #método para cargar las vacantes de prueba
     try:
         listaVacantes=leerDatosInicio(constantes['ruta_ficheros']+'/'+constantes['ficheros_inicio'][5])
@@ -130,15 +130,15 @@ def cargarVacantes(conexion,fichLog):
         
         conexion.commit()
         
-    except:
-        print('Se produjo un error al insertar Vacantes')
+    except Exception as error:
+        fichErr.write('Se produjo el siguiente error al insertar en Vacante: '+error)
         conexion.rollback()
     finally:
         cierraCursor(cursor)
     #fin del método
 
 
-def cargarBaremados(conexion,fichLog):
+def cargarBaremados(conexion,fichLog, fichErr):
     #método para cargar las relaciones de candidatos baremados por especialidad
     try:
         listaBaremados=leerDatosInicio(constantes['ruta_ficheros']+'/'+constantes['ficheros_inicio'][3])
@@ -157,8 +157,8 @@ def cargarBaremados(conexion,fichLog):
         
         conexion.commit()
         
-    except:
-        print('Se produjo un error al insertar Baremaciones')
+    except Exception as error:
+        fichErr.write('Se produjo el siguiente error al insertar en Lista: '+error)
         conexion.rollback()
     finally:
         cierraCursor(cursor)
@@ -166,7 +166,7 @@ def cargarBaremados(conexion,fichLog):
     #fin del método
 
 
-def cargarPeticiones(conexion,fichLog):
+def cargarPeticiones(conexion,fichLog, fichErr):
     #método para cargar las peticiones de plazas que realiza cada candidato
     try:
         listaPeticiones=leerDatosInicio(constantes['ruta_ficheros']+'/'+constantes['ficheros_inicio'][4])
@@ -186,8 +186,8 @@ def cargarPeticiones(conexion,fichLog):
         
         conexion.commit()
         
-    except:
-        print('Se produjo un error al insertar Peticiones')
+    except Exception as error:
+        fichErr.write('Se produjo el siguiente error al insertar en Peticion: '+error)
         conexion.rollback()
     finally:
         cierraCursor(cursor)

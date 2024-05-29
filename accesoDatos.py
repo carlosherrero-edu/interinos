@@ -56,7 +56,7 @@ def contarVacantesEspecialidad(conexion,especialidad):
         consulta= '''select count(*) from Vacante 
                         where codEspecialidad=? and adjudicatario is null'''
         cursor.execute(consulta,(especialidad,))
-        vacantes=cursor.fetchone()[0]
+        vacantes=cursor.fetchone()[0]           #sólo nos interesa el primer registro
         cierraCursor(cursor)
         return vacantes
         
@@ -141,12 +141,18 @@ def buscarPLazaAdjudicada(conexion,candidato):
         return None
     #fin del método
 
-def adjudicarPlaza(conexion,documento, especialidad, codCentro, ordenVacante):
-     #método para adjudicar una vacante. Implica actualizar dos tablas
-     ocuparVacante(conexion,documento,especialidad,codCentro,ordenVacante)
-     ocuparPeticion (conexion,documento,especialidad,codCentro)
-    
-    #fin del método
+def adjudicarPlaza(conexion,fichLog,fichErr,documento, especialidad, codCentro, ordenVacante):
+     #método para adjudicar una vacante. Implica actualizar dos tablas, Vacante y Peticion
+     try:
+        ocuparVacante(conexion,documento,especialidad,codCentro,ordenVacante)
+        ocuparPeticion (conexion,documento,especialidad,codCentro)
+        fichLog.write("\n *** Se adjudica vacante en la Especialidad {0:s} y Centro {1:s} al Candidato {2:s}"
+                    .format(especialidad, codCentro, documento))
+     except Exception as error:
+         fichErr.write("\n *** Se aborta la adjudicación de  vacante en la Especialidad {0:s} y Centro {1:s} al Candidato {2:s} por el siguiente error: \t{3:s}"
+                      .format(especialidad, codCentro, documento, str(error)))
+     
+#fin del método
 
 def ocuparVacante(conexion,documento,especialidad,codCentro,ordenVacante):
     #método para adjudicar una vacante y marcarla como ocupada
@@ -163,6 +169,7 @@ def ocuparVacante(conexion,documento,especialidad,codCentro,ordenVacante):
         conexion.rollback()
     finally:
         cierraCursor(cursor)
+    
 
 #fin del método
 
@@ -185,12 +192,18 @@ def ocuparPeticion(conexion,documento,especialidad,codCentro):
 #fin del método
 
 
-def liberarPlazaAdjudicada(conexion,plazaAdjudicada):
+def liberarPlazaAdjudicada(conexion, fichLog,fichErr,plazaAdjudicada):
     #método para adjudicar una vacante. Implica actualizar dos tablas
     #estructura de plazaAdjudicada: documento-ordenPeticion-codCentro-codEspecialidad-estado
-     liberarVacante(conexion,plazaAdjudicada[0])
-     liberarPeticion (conexion,plazaAdjudicada[0], plazaAdjudicada[1])
-
+    try:
+        liberarVacante(conexion,plazaAdjudicada[0])
+        liberarPeticion (conexion,plazaAdjudicada[0], plazaAdjudicada[1])
+        fichLog.write("\n *** Se libera la vacante que se adjudicó en  la Especialidad {0:s} y Centro {1:s} al Candidato {2:s}"
+                    .format(plazaAdjudicada[3], plazaAdjudicada[2], plazaAdjudicada[0]))
+    except Exception as error:
+        fichErr.write("\n *** Se produjo un error al intentar liberar la vacante que se adjudicó en  la Especialidad {0:s} y Centro {1:s} al Candidato {2:s}:\t {3:s}"
+                    .format(plazaAdjudicada[3], plazaAdjudicada[2], plazaAdjudicada[0], str(error)))
+#fin del método liberarPlazaAdjudicada
 
 def liberarVacante(conexion,documento):
     #método para marcar una vacante como no adjudicada, disponible

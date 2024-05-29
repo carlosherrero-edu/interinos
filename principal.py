@@ -1,7 +1,5 @@
 from constantes import constantes
-
 from metodosAdjudicacion import *
-
 from datetime import datetime
 import accesoDatos
 import cargarDatosPrueba
@@ -15,23 +13,39 @@ def abrirFicheroLog():
         return fichLog
     except:
         print('NO ha sido posible abrir el fichero de log')
-    #fin del método abrirFichero
+    #fin del método abrirFicheroLog
 
-def escribirLogInicioEjecucion(fichLog):
+def abrirFicheroErrores():
+    try:
+        fichErr=open(constantes['nombre_fichero_errores'],'a')
+        return fichErr
+    except:
+        print('NO ha sido posible abrir el fichero de errores')
+    #fin del método abrirFicheroErores
+
+def escribirLogInicioEjecucion(fichLog, fichErr):
     fichLog.write('\n')
     fichLog.write('-'*80+'\n'+'-'*80)
     fichLog.write('\nPROCEDIMIENTO DE ADJUDICACIÓN DE VACANTES DE INTERINOS\n')
     fichLog.write('-'*40)
     fichLog.write('\nInicio del procedimiento  en: '+ str(datetime.now()))
+    fichErr.write('\n')
+    fichErr.write('-'*80+'\n'+'-'*80)
+    fichErr.write('\nERRORES DETECTADOS DURANTE LA EJECUCIÓN\n')
+    fichErr.write('-'*40)
+    fichErr.write('\nInicio del procedimiento  en: '+ str(datetime.now()))
 
-def escribirLogFinEjecucion(fichLog, iteraciones, asignadas, libres):
+def escribirLogFinEjecucion(fichLog, fichErr, iteraciones, asignadas, libres):
     fichLog.write('\n')
     fichLog.write('-'*80)
     fichLog.write('\n'+ '**Se han completado {} iteraciones'.format(iteraciones))
     fichLog.write('\nSe han adjudicado en total {0:d} vacantes \n'.format(asignadas))
     fichLog.write('\nHan quedado desiertas {0:d} vacantes \n'.format(libres))
     fichLog.write('\nFinalización del procedimiento  en: '+ str(datetime.now()))
-    fichLog.write('-'*80+'\n'+'-'*80)
+    #fichLog.write('-'*80+'\n'+'-'*80)
+    fichErr.write('\n')
+    fichErr.write('-'*80)
+    fichErr.write('\nFinalización del procedimiento  en: '+ str(datetime.now()))
 
 def escribirInicioIteracion(fichLog,iteracion,vacantes):
     fichLog.write('\n')
@@ -46,17 +60,17 @@ def escribirFinIteracion(fichLog,iteracion,adjudicadas,mejoras,vacantes):
     fichLog.write('\nSe han producido en esta iteración {0:d} mejoras en adjudicaciones \n'.format(mejoras))
     fichLog.write("\nVacantes que no se han adjducicado: " +str(vacantes))
 
-def cargarDatosInicio(conexion,fichLog):
+def cargarDatosInicio(conexion,fichLog, fichErr):
     #ejecutamos el método para vaciar las tablas
-    cargarDatosPrueba.vaciarTablas(conexion,fichLog)
+    cargarDatosPrueba.vaciarTablas(conexion,fichLog, fichErr)
 
     #a continuación ejecutamos los métodos para ir poblando cada tabla con los datos de prueba
-    cargarDatosPrueba.cargarEspecialidades(conexion,fichLog)
-    cargarDatosPrueba.cargarCentros(conexion,fichLog)
-    cargarDatosPrueba.cargarCandidatos(conexion,fichLog)
-    cargarDatosPrueba.cargarBaremados(conexion,fichLog)
-    cargarDatosPrueba.cargarPeticiones(conexion,fichLog)
-    cargarDatosPrueba.cargarVacantes(conexion,fichLog)
+    cargarDatosPrueba.cargarEspecialidades(conexion,fichLog, fichErr)
+    cargarDatosPrueba.cargarCentros(conexion,fichLog, fichErr)
+    cargarDatosPrueba.cargarCandidatos(conexion,fichLog, fichErr)
+    cargarDatosPrueba.cargarBaremados(conexion,fichLog, fichErr)
+    cargarDatosPrueba.cargarPeticiones(conexion,fichLog, fichErr)
+    cargarDatosPrueba.cargarVacantes(conexion,fichLog, fichErr)
 
 
 def escribirPuestosAsignados(conexion):
@@ -82,9 +96,11 @@ def escribirPuestosDesiertos(conexion):
 conexion=conectar(constantes['ruta_db']+'/'+constantes['nombre_db'])
 #inicialización y apertura del fichero de log
 fichLog=abrirFicheroLog()
-escribirLogInicioEjecucion (fichLog)
+#inicialización y apertura del fichero de errores
+fichErr=abrirFicheroErrores()
+escribirLogInicioEjecucion (fichLog, fichErr)
 #carga de las tablas con los datos de los ficheros CSV 
-cargarDatosInicio(conexion,fichLog)
+cargarDatosInicio(conexion,fichLog, fichErr)
   
 #inicialización de variables para la primera iteración
 numIteraciones=0
@@ -100,7 +116,7 @@ while(vacantesLibres>0 and hayMejoras):
     #primero cambiamos la variable hayMejoras
     hayMejoras=False
     #procedimiento de recorrido por especialidades para adjudicar vacantes
-    adjudicacionesIteracion, numMejoras= recorrerEspecialidades(conexion,listaEspecialidades)
+    adjudicacionesIteracion, numMejoras= recorrerEspecialidades(conexion,fichLog,fichErr,listaEspecialidades)
     vacantesAsignadas+=(adjudicacionesIteracion-numMejoras)
     #hay que verificar si siguen quedando vacantes libres
     vacantesLibres=contarVacantesLibres(conexion)
@@ -110,10 +126,14 @@ while(vacantesLibres>0 and hayMejoras):
         hayMejoras=True  #lo que obliga a una repetición del bucle
 #fin del bucle while principal
 
-escribirLogFinEjecucion(fichLog, numIteraciones,vacantesAsignadas, vacantesIniciales-vacantesAsignadas)
 #escribir los ficheros de vacantes asignadas y vacantes desiertas
 escribirPuestosAsignados(conexion)
 escribirPuestosDesiertos(conexion)
-#cerramos la conexión y el fichero de log
+
+escribirLogFinEjecucion(fichLog, fichErr, numIteraciones,vacantesAsignadas, vacantesIniciales-vacantesAsignadas)
+
+#cerramos la conexión y el fichero de log y de errores
 fichLog.close()
+fichErr.close()
 desconectar(conexion)
+print("***SE ha ejecutado el programa. Compruebe los ficheros de salida y de errores***")
