@@ -1,0 +1,16 @@
+En esta prueba tenemos:
+12 candidatos
+4 centros
+2 especialidades
+1 sola lista de una especialidad (0597PRI) a la que pertenecen los 12 candidatos
+Se oferta 1 vacante en Centro 3, 2 en Centro 5 y 3 en Centro 7
+Todos los candidatos piden por orden los mismos Centros en la especialidad:
+Centro 3 -> Centro 5 -> Centro 7
+
+Por tanto esperamos que:
+La plaza del Centro 3 se dé al candidato 1
+Las dos plazas del Centro 5 se den a los Candidatos 2 y 3
+LAs tres plazas del Centro 7 se den a los Candidatos 4, 5, 6
+No queden plazas vacantes
+Se haga todo en una vuelta
+

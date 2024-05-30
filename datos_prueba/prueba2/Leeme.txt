@@ -1,0 +1,25 @@
+En esta prueba tenemos:
+12 candidatos
+4 centros
+2 especialidades
+2 listas de dos especialidades (0597PRI, 0757FO) a la que pertenecen los 12 candidatos:
+En la lista de PRI, se ordenan desde el candidato 1 al 12
+En la lista de FI, se ordenan en sentido inverso desde el candidato 12 al 1
+Se ofertan 8 vacantes:
+1 vacante de cada especialidad en los centros 3, 5 y 7
+1 vacante adicional de FI en el centro 3
+1 vacante adicional de PRI en el Centro 5
+Todos los candidatos piden por orden los mismos Centros y, en cada centro, prefieren la especialidad PRI a la FI
+Centro 3 PRI-> Centro 3 FI -> Centro 5 PRI-> Centro 5 FI -> Centro 7 PRI-> Centro 7 FI
+
+Por tanto esperamos la siguiente asignación de plazas en una vuelta:
+Candidato 1: Centro 3 PRI
+Candidato 2: Centro 5 PRI
+Candidato 3: Centro 5 PRI
+Candidato 4: Centro 7 PRI
+Candidato 12: Centro 3 FI
+Candidato 11: Centro 3 FI
+Candidato 10: Centro 5 FI
+Candidato 9: Centro 7 FI
+Se adjudican todas las plazas
+

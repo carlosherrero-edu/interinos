@@ -1,0 +1,8 @@
+Código,Especialidad,Código,Centro,Documento,Adjudicatario,Orden Lista,Preferencia
+0590006,Matemáticas,60000001,IE Severo Ochoa,11111A,Candidato 1,1,1
+0590006,Matemáticas,60000003,IE El Pilar,22222B,Candidata 2,2,4
+0590007,Física y Química,60000001,IE Severo Ochoa,33333C,Candidato 3,1,2
+0590019,Tecnología,60000001,IE Severo Ochoa,44444D,Candidata 4,1,3
+0597FI,Maestro Lengua Extranjera Inglés,60000007,IE Lope de Vega,66666F,Candidata 6,1,2
+0597FI,Maestro Lengua Extranjera Inglés,60000007,IE Lope de Vega,77777G,Candidata 7,4,1
+0597PRI,Educación Primaria,60000007,IE Lope de Vega,55555E,Candidato 5,1,1
