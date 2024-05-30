@@ -1,8 +1,12 @@
+# -*- coding: utf-8 -*-
 from accesoDatos import *
+from conectoresBD import *
 from constantes import constantes
 from tratarCsv import *
 #carga de datos de prueba
 
+"""
+"""
 def vaciarTablas(conexion,fichLog, fichErr):
     #método para contar cuántas vacantes hay aún libres
     try:
@@ -26,7 +30,8 @@ def vaciarTablas(conexion,fichLog, fichErr):
 
 #fin del método
 
-
+"""
+"""
 def cargarEspecialidades(conexion,fichLog, fichErr):
     #método para cargar las especialidades de prueba
     try:
@@ -54,7 +59,8 @@ def cargarEspecialidades(conexion,fichLog, fichErr):
 
     #fin del método
 
-
+"""
+"""
 def cargarCentros(conexion,fichLog, fichErr):
     #método para cargar los Centros docentes de prueba
     try:
@@ -81,6 +87,8 @@ def cargarCentros(conexion,fichLog, fichErr):
 
     #fin del método
 
+"""
+"""
 def cargarCandidatos(conexion,fichLog,fichErr):
     #método para cargar los candidatos/interinos de prueba
     try:
@@ -109,7 +117,8 @@ def cargarCandidatos(conexion,fichLog,fichErr):
 
 #fin del método
 
-
+"""
+"""
 def cargarVacantes(conexion,fichLog, fichErr):
     #método para cargar las vacantes de prueba
     try:
@@ -137,7 +146,8 @@ def cargarVacantes(conexion,fichLog, fichErr):
         cierraCursor(cursor)
     #fin del método
 
-
+"""
+"""
 def cargarBaremados(conexion,fichLog, fichErr):
     #método para cargar las relaciones de candidatos baremados por especialidad
     try:
@@ -165,7 +175,8 @@ def cargarBaremados(conexion,fichLog, fichErr):
 
     #fin del método
 
-
+"""
+"""
 def cargarPeticiones(conexion,fichLog, fichErr):
     #método para cargar las peticiones de plazas que realiza cada candidato
     try:

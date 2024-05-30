@@ -1,11 +1,13 @@
+# -*- coding: utf-8 -*-
 from accesoDatos import *
+from escribirBD import *
 
-
-def recorrerEspecialidades(conexion,fichLog,fichErr,listaEspecialidades):
-    """
+"""
     Método para recorrer todas las especialidades que deben adjudicarse e ir asignando vacantes de cada especialidad
     Devuelve el número total de adjudicaciones y de mejoras en puestos que se producen durante una iteración
-    """
+"""
+def recorrerEspecialidades(conexion,fichLog,fichErr,listaEspecialidades):
+    
     #iniciamos contador de adjudicaciones
     adjudicacionesIteracion=0
     numMejoras=0
@@ -24,12 +26,13 @@ def recorrerEspecialidades(conexion,fichLog,fichErr,listaEspecialidades):
 
  #fin del método recorrerEspecialidades
 
-def recorrerCandidatosEspecialidad(conexion,fichLog,fichErr,especialidad):
-    """
+"""
      Método que para cada especialidad, comprueba si quedan vacantes libres. 
      En caso afirmativo, recupera los candidatos de la lista de esa especialidad y examina sus peticiones
      Devuelve el número de plazas adjudicadas y posibles mejoras en esa especialidad
-    """
+"""
+def recorrerCandidatosEspecialidad(conexion,fichLog,fichErr,especialidad):
+    
     adjudicacionesEsp=0
     mejorasEsp=0
     #comprobamos si hay vacantes libres de esta especialidad
@@ -52,14 +55,16 @@ def recorrerCandidatosEspecialidad(conexion,fichLog,fichErr,especialidad):
 
 #fin método recorrerCandidatosEspecialidad
 
-def estudiarPeticionesCandidato(conexion, fichLog,fichErr,documento,especialidad):
-    """
+
+"""
     Método que recupera las peticiones realizadas por un candidato en una especialidad, según su orden de prioridad
     Valores que puede devolver:
     0-0: No se le adjudicó ninguna plaza
     1-0: Se le adjudica un puesto, pero no mejora la adjudicación anterior para el mismo candiado
     1-1: Se le adjudicón un puesto, y además ese puesto mejora la adjudicación anterior para el mismo candidato
-    """
+"""
+def estudiarPeticionesCandidato(conexion, fichLog,fichErr,documento,especialidad):
+    
     adjudicada, mejora=0,0
     #recuperamos las peticiones de ese candidato en la especialidad          
     listaPeticiones=buscarPeticionesCandidato(conexion,documento,especialidad)
@@ -82,9 +87,8 @@ def estudiarPeticionesCandidato(conexion, fichLog,fichErr,documento,especialidad
 
 # fin del método estudiarPeticionesCandidato
 
-def analizarPeticion(conexion,fichLog,fichErr,peticion,plazaAdjudicada):
-    """
-    Método que estudia la petición de un puesto de un candidato, determina si hay puesto vacante en el centro pedido
+"""
+Método que estudia la petición de un puesto de un candidato, determina si hay puesto vacante en el centro pedido
     Si hay puesto vacante y el candidato no había obtenido plaza, se lo adjudica
     Si ya había obtenido plaza, se lo adjudicará siempre que dicho puesto lo hubiese pedido antes que el que ya tenía
     En ese caso, se contabiliza como mejora en la adjuciación
@@ -92,7 +96,9 @@ def analizarPeticion(conexion,fichLog,fichErr,peticion,plazaAdjudicada):
     0-0: No se le adjudicó ninguna plaza
     1-0: Se le adjudica un puesto, pero no mejora la adjudicación anterior para el mismo candiado
     1-1: Se le adjudicón un puesto, y además ese puesto mejora la adjudicación anterior para el mismo candidato
-    """
+"""
+def analizarPeticion(conexion,fichLog,fichErr,peticion,plazaAdjudicada):
+   
     #estructura de peticion: documento, ordenPeticion,codCentro,codEspecialidad, estado
     adjudicada, mejora=0,0
     #hay que ver si existe aún vacante en la plaza que pide

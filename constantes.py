@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
     Definición de constantes para la aplicación, utilizando un diccionario
     Todas las rutas son relativas al directorio de ejecución del módulo principal
