@@ -23,7 +23,7 @@ def vaciarTablas(conexion,fichLog, fichErr):
         
    
     except Exception as error:
-        fichErr.write('Se produjo el siguiente error al vaciar las tablas: '+error)
+        fichErr.write('Se produjo el siguiente error al vaciar las tablas: '+str(error))
         conexion.rollback()
     finally:
         cierraCursor(cursor)
@@ -52,7 +52,7 @@ def cargarEspecialidades(conexion,fichLog, fichErr):
         conexion.commit()
         
     except Exception as error:
-        fichErr.write('Se produjo el siguiente error al insertar en Especialidad: '+error)
+        fichErr.write('Se produjo el siguiente error al insertar en Especialidad: '+str(error))
         conexion.rollback()
     finally:
         cierraCursor(cursor)
@@ -80,7 +80,7 @@ def cargarCentros(conexion,fichLog, fichErr):
         conexion.commit()
         
     except Exception as error:
-        fichErr.write('Se produjo el siguiente error al insertar en Centro: '+error)
+        fichErr.write('Se produjo el siguiente error al insertar en Centro: '+str(error))
         conexion.rollback()
     finally:
         cierraCursor(cursor)
@@ -110,7 +110,7 @@ def cargarCandidatos(conexion,fichLog,fichErr):
         conexion.commit()
         
     except Exception as error:
-        fichErr.write('Se produjo el siguiente error al insertar en Candidato: '+error)
+        fichErr.write('Se produjo el siguiente error al insertar en Candidato: '+str(error))
         conexion.rollback()
     finally:
         cierraCursor(cursor)
@@ -140,7 +140,7 @@ def cargarVacantes(conexion,fichLog, fichErr):
         conexion.commit()
         
     except Exception as error:
-        fichErr.write('Se produjo el siguiente error al insertar en Vacante: '+error)
+        fichErr.write('Se produjo el siguiente error al insertar en Vacante: '+str(error))
         conexion.rollback()
     finally:
         cierraCursor(cursor)
@@ -168,7 +168,7 @@ def cargarBaremados(conexion,fichLog, fichErr):
         conexion.commit()
         
     except Exception as error:
-        fichErr.write('Se produjo el siguiente error al insertar en Lista: '+error)
+        fichErr.write('Se produjo el siguiente error al insertar en Lista: '+str(error))
         conexion.rollback()
     finally:
         cierraCursor(cursor)
@@ -198,7 +198,7 @@ def cargarPeticiones(conexion,fichLog, fichErr):
         conexion.commit()
         
     except Exception as error:
-        fichErr.write('Se produjo el siguiente error al insertar en Peticion: '+error)
+        fichErr.write('Se produjo el siguiente error al insertar en Peticion: '+str(error))
         conexion.rollback()
     finally:
         cierraCursor(cursor)
